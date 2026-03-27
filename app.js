@@ -22,7 +22,7 @@ function getDistance(origin, dest) {
 }
 
 // ==========================================
-// 國泰 Asia Miles 邏輯
+// 國泰 Asia Miles 邏輯 1.1
 // ==========================================
 function addInput() {
     let div = document.createElement("input");
