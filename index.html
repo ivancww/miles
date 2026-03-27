@@ -8,28 +8,58 @@
     <link rel="manifest" href="manifest.json">
 </head>
 <body>
-    <h2>✈️ 哩數兌換計算機</h2>
+    <h2>✈️ 哩數攻略計算機</h2>
 
     <div class="tab-container">
-        <button class="tab-btn active" onclick="openTab('cathay')">Asia Miles (國泰)</button>
-        <button class="tab-btn" onclick="openTab('ba')">Avios (英航)</button>
-        <button class="tab-btn" onclick="openTab('sq')">KrisFlyer (新航)</button>
+        <button class="tab-btn active" onclick="openTab('cathay', this)">Asia Miles (國泰)</button>
+        <button class="tab-btn" onclick="openTab('ba', this)">Avios (英航)</button>
+        <button class="tab-btn" onclick="openTab('sq', this)">KrisFlyer (新航)</button>
     </div>
 
     <div id="cathay" class="tab-content" style="display: block;">
         <h3>🟢 國泰專屬計算 (支援 oneworld 環球票)</h3>
         
         <div class="card-section">
-            <h4>💳 適用信用卡</h4>
+            <h4>💳 適用信用卡及福利</h4>
             <ul>
-                <li>渣打國泰 Mastercard (黑/藍/綠卡) - $6=1哩 (免手續費)</li>
-                <li>東亞 World Mastercard - $5=1哩 (<strong>每次 $300 手續費</strong>)</li>
-                <li>HSBC EveryMile - $5=1哩 (免手續費)</li>
+                <li><strong>渣打國泰信用卡</strong><br>
+                    ✈️ 里數：HK$6/里 (本地) | 低至HK$2/里 (國泰/HK Express及國泰夥伴餐廳)<br>
+                    ⏳ 換里：每月即時自動兌換，免手續費
+                </li><br>
+                <li><strong>滙豐 HSBC EveryMile</strong><br>
+                    ✈️ 里數：HK$5/里 (本地) | 低至HK$2/里 (指定消費)<br>
+                    ⏳ 換里：積分有限期<br>
+                    🛋️ 福利：每年 6 次免費環亞貴賓室 (需簽HK$4,000) | 免費旅遊保險
+                </li><br>
+                <li><strong>AE Explorer 信用卡</strong><br>
+                    ✈️ 里數：HK$6/里<br>
+                    ⏳ 換里：積分無限期<br>
+                    🛋️ 福利：每年 8 次指定環亞貴賓室 | 免費旅遊保障 (須支付全數旅遊票務)
+                </li><br>
+                <li><strong>DBS Black World Mastercard</strong><br>
+                    ✈️ 里數：HK$6/里 (本地)<br>
+                    ⏳ 換里：積分無限期<br>
+                    🛡️ 福利：免費旅遊保障 (憑卡預訂機票或旅程)
+                </li><br>
+                <li><strong>Citi PremierMiles 信用卡</strong><br>
+                    ✈️ 里數：HK$8/里 (基本本地)<br>
+                    ⏳ 換里：積分無限期，免手續費<br>
+                    🛋️ 福利：可用貴賓室 (其後30天需簽HK$5,000) | 免費蘇黎世旅遊保險
+                </li><br>
+                <li><strong>Citi Reward 信用卡</strong><br>
+                    ✈️ 里數：HK$8/里 (基本本地)<br>
+                    ⏳ 換里：積分無限期，兌換需收手續費<br>
+                    🛡️ 福利：免費蘇黎世旅遊保險
+                </li><br>
+                <li><strong>東亞 BEA World Mastercard</strong><br>
+                    ✈️ 里數：HK$10/里<br>
+                    ⏳ 換里：每次兌換需收手續費 (只可兌換 Asia Miles)
+                </li>
             </ul>
         </div>
 
         <div class="calculator-section">
-            <h4>🗺️ 行程輸入 (支援 Stopover)</h4>
+            <h4>🗺️ 寰宇一家環球票輸入 (支援 Stopover)</h4>
             <div id="route-inputs">
                 <input type="text" class="airport-code" placeholder="出發地 (例: HKG)">
                 <input type="text" class="airport-code" placeholder="目的地 1 (例: LHR)">
@@ -37,24 +67,80 @@
             </div>
             <button onclick="addInput()">+ 新增航段</button>
             <button onclick="calculateRoute()">計算最抵方案</button>
-            
             <div id="result-box" class="result-box"></div>
         </div>
     </div>
 
     <div id="ba" class="tab-content" style="display: none;">
-        <h3>🔵 英航 Avios 專屬計算</h3>
-        <p>💳 專屬卡：大新英國航空白金卡 - $6=1哩 (免手續費)</p>
+        <h3>🔵 英航 Avios 專屬計算 (逐段距離計)</h3>
+        
+        <div style="background: #eef5fb; padding: 12px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid #012A5E;">
+            <h4 style="margin-top: 0; color: #012A5E;">📅 2026年英航旺季 (Peak) 日期</h4>
+            <p style="font-size: 13px; line-height: 1.6; margin-bottom: 0;">
+                <strong>1月:</strong> 1-5日 | <strong>2月:</strong> 13-15, 20-22日<br>
+                <strong>3月:</strong> 27-30日 | <strong>4月:</strong> 2-6, 9-12日<br>
+                <strong>5月:</strong> 1-4, 22-31日 | <strong>6月:</strong> 逢星期五至日<br>
+                <strong>7月:</strong> 3日起大部份日子 | <strong>8月:</strong> <b>全月旺季</b><br>
+                <strong>9-11月:</strong> 週末及假期 | <strong>12月:</strong> 12-13, 18-24, 26-31日<br>
+                <em style="color: #666;">*除上述日子外，其餘均為淡季 (Off-Peak)</em>
+            </p>
         </div>
 
-    <div id="sq" class="tab-content" style="display: none;">
-        <h3>🟡 新航 KrisFlyer 專屬計算</h3>
-        <p>💳 適用卡：AE Explorer, HSBC EveryMile 等</p>
+        <div class="card-section">
+            <h4>💳 適用信用卡及福利</h4>
+            <ul>
+                <li><strong>大新英國航空白金卡</strong> - HK$6/里 (只換 Avios)</li>
+                <li><strong>滙豐 HSBC EveryMile</strong> - HK$5/里 | 每年 6 次貴賓室</li>
+                <li><strong>AE Explorer</strong> - HK$6/里 | 每年 8 次貴賓室</li>
+                <li><strong>DBS Black World Mastercard</strong> - HK$6/里 | 免費保險</li>
+                <li><strong>Citi PremierMiles</strong> - HK$8/里 | 蘇黎世旅遊保險</li>
+                <li><strong>Citi Reward</strong> - HK$8/里 | 需手續費</li>
+            </ul>
         </div>
+
+        <div class="calculator-section">
+            <h4>🗺️ Avios 行程計算 (支援淡旺季)</h4>
+            <div style="margin-bottom: 10px;">
+                 <label style="font-weight: bold; color: #d9534f;">
+                     <input type="checkbox" id="ba-peak-checkbox"> 🛫 勾選此項代表出發日為「旺季」
+                 </label>
+            </div>
+            <div id="ba-route-inputs">
+                <input type="text" class="airport-code ba-code" placeholder="出發地 (例: HKG)">
+                <input type="text" class="airport-code ba-code" placeholder="目的地 (例: NRT)">
+            </div>
+            <button onclick="addInputBA()" style="background: #012A5E;">+ 新增航段</button>
+            <button onclick="calculateBA()" style="background: #012A5E;">計算 Avios 哩數</button>
+            <div id="ba-result-box" class="result-box"></div>
+        </div>
+    </div>
+
+    <div id="sq" class="tab-content" style="display: none;">
+        <h3>🟡 新航 KrisFlyer 專屬計算 (區域制)</h3>
+        
+        <div class="card-section">
+            <h4>💳 適用信用卡及福利</h4>
+            <ul>
+                <li><strong>滙豐 HSBC EveryMile</strong> - HK$5/里 | 每年 6 次貴賓室</li>
+                <li><strong>AE Explorer</strong> - HK$6/里 | 每年 8 次貴賓室</li>
+                <li><strong>DBS Black World Mastercard</strong> - HK$6/里 | 免費保險</li>
+                <li><strong>Citi PremierMiles</strong> - HK$8/里 | 蘇黎世旅遊保險</li>
+                <li><strong>Citi Reward</strong> - HK$8/里 | 需手續費</li>
+            </ul>
+        </div>
+
+        <div class="calculator-section">
+            <h4>🗺️ KrisFlyer 兌換概覽 (香港出發單程 Saver)</h4>
+            <div style="background: #fff8e1; padding: 12px; border-radius: 8px; border-left: 4px solid #FDB813;">
+                <p><strong>🇸🇬 飛往 新加坡 (Zone 1)</strong><br>經濟: 16,500 哩 | 商務: 34,000 哩</p>
+                <p><strong>🇦🇺 飛往 澳洲/紐西蘭 (Zone 8/9)</strong><br>經濟: 30,500 哩 | 商務: 68,500 哩</p>
+                <p><strong>🇬🇧 飛往 歐洲 (Zone 11)</strong><br>經濟: 42,000 哩 | 商務: 103,500 哩</p>
+            </div>
+        </div>
+    </div>
 
     <script src="app.js"></script>
     <script>
-        // 註冊 Service Worker (PWA 必備)
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('sw.js');
         }
