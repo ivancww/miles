@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>飛行哩數攻略計算機</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+</head>
+<body>
+    <h2>✈️ 哩數兌換計算機</h2>
+
+    <div class="tab-container">
+        <button class="tab-btn active" onclick="openTab('cathay')">Asia Miles (國泰)</button>
+        <button class="tab-btn" onclick="openTab('ba')">Avios (英航)</button>
+        <button class="tab-btn" onclick="openTab('sq')">KrisFlyer (新航)</button>
+    </div>
+
+    <div id="cathay" class="tab-content" style="display: block;">
+        <h3>🟢 國泰專屬計算 (支援 oneworld 環球票)</h3>
+        
+        <div class="card-section">
+            <h4>💳 適用信用卡</h4>
+            <ul>
+                <li>渣打國泰 Mastercard (黑/藍/綠卡) - $6=1哩 (免手續費)</li>
+                <li>東亞 World Mastercard - $5=1哩 (<strong>每次 $300 手續費</strong>)</li>
+                <li>HSBC EveryMile - $5=1哩 (免手續費)</li>
+            </ul>
+        </div>
+
+        <div class="calculator-section">
+            <h4>🗺️ 行程輸入 (支援 Stopover)</h4>
+            <div id="route-inputs">
+                <input type="text" class="airport-code" placeholder="出發地 (例: HKG)">
+                <input type="text" class="airport-code" placeholder="目的地 1 (例: LHR)">
+                <input type="text" class="airport-code" placeholder="目的地 2 (例: HKG)">
+            </div>
+            <button onclick="addInput()">+ 新增航段</button>
+            <button onclick="calculateRoute()">計算最抵方案</button>
+            
+            <div id="result-box" class="result-box"></div>
+        </div>
+    </div>
+
+    <div id="ba" class="tab-content" style="display: none;">
+        <h3>🔵 英航 Avios 專屬計算</h3>
+        <p>💳 專屬卡：大新英國航空白金卡 - $6=1哩 (免手續費)</p>
+        </div>
+
+    <div id="sq" class="tab-content" style="display: none;">
+        <h3>🟡 新航 KrisFlyer 專屬計算</h3>
+        <p>💳 適用卡：AE Explorer, HSBC EveryMile 等</p>
+        </div>
+
+    <script src="app.js"></script>
+    <script>
+        // 註冊 Service Worker (PWA 必備)
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js');
+        }
+    </script>
+</body>
+</html>
