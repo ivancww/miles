@@ -1,55 +1,54 @@
 /* ==========================================
    哩數攻略 (Mileage Exchanger) PWA
-   檔案：style.css
-   版本：v1.4.0
+   檔案：sw.js (Service Worker)
+   版本：v1.5.0
 ========================================== */
-* {
-    box-sizing: border-box;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-}
 
-body { background-color: #f4f7f6; margin: 0; padding: 20px; color: #333; }
-.header-container { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
-h2 { color: #2c3e50; margin: 0; }
+const CACHE_NAME = 'mileage-calculator-cache-v1.5.0';
+const urlsToCache = [
+  './',
+  './index.html',
+  './style.css?v=1.5.0',
+  './app.js?v=1.5.0',
+  './manifest.json'
+];
 
-.force-update-btn { background-color: #dc3545; color: white; border: none; padding: 8px 12px; border-radius: 6px; font-size: 14px; font-weight: bold; cursor: pointer; }
-.force-update-btn:hover { background-color: #c82333; }
+self.addEventListener('install', event => {
+  event.waitUntil(
+    caches.open(CACHE_NAME)
+      .then(cache => {
+        return cache.addAll(urlsToCache);
+      })
+  );
+});
 
-.global-dates { background: #fff; padding: 15px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-bottom: 20px; }
-.global-dates h4 { margin-top: 0; color: #2c3e50; }
-.date-inputs { display: flex; gap: 15px; }
-.date-inputs div { flex: 1; }
-.date-inputs label { display: block; font-size: 14px; margin-bottom: 5px; color: #555; font-weight: bold; }
-.date-inputs input[type="date"] { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 15px; }
+self.addEventListener('fetch', event => {
+  // 對於 POST 請求（例如傳送至 Google Sheet）不進行 Cache
+  if (event.request.method === 'POST') {
+    return;
+  }
+  event.respondWith(
+    caches.match(event.request)
+      .then(response => {
+        if (response) {
+          return response;
+        }
+        return fetch(event.request);
+      })
+  );
+});
 
-.tab-container { display: flex; justify-content: space-between; margin-bottom: 20px; background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
-.tab-btn { flex: 1; padding: 15px 5px; border: none; background: #e9ecef; color: #6c757d; cursor: pointer; font-weight: bold; font-size: 14px; transition: all 0.3s ease; }
-.tab-btn:nth-child(1).active { background: #006564; color: white; }
-.tab-btn:nth-child(2).active { background: #012A5E; color: white; }
-.tab-btn:nth-child(3).active { background: #FDB813; color: #002561; }
-.tab-content { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); animation: fadeIn 0.4s ease-in-out; }
-
-@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-.card-section, .calculator-section { margin-top: 15px; padding-top: 15px; border-top: 1px solid #eee; }
-h3 { margin-top: 0; font-size: 18px; color: #333; }
-h4 { margin-bottom: 10px; color: #555; }
-ul { padding-left: 20px; font-size: 14px; line-height: 1.6; color: #444; }
-
-/* 路線區塊樣式 */
-.route-block { background: #fafafa; padding: 15px; border: 1px solid #e0e0e0; border-radius: 8px; margin-bottom: 15px; }
-.route-header { font-weight: bold; color: #006564; margin-bottom: 10px; }
-.airport-code { width: 100%; padding: 12px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 16px; text-transform: uppercase; background-color: #fff; }
-.airport-code:focus { outline: none; border-color: #006564; box-shadow: 0 0 5px rgba(0, 101, 100, 0.2); }
-
-/* 即時顯示框 */
-.realtime-box { margin-top: 5px; padding: 12px; background: #f0f7f6; border-left: 5px solid #006564; border-radius: 6px; font-size: 15px; line-height: 1.6; color: #222; }
-
-/* 按鈕群組 */
-.btn-group { display: flex; gap: 10px; margin-top: 10px; }
-button { flex: 1; padding: 14px; border: none; border-radius: 8px; font-size: 15px; font-weight: bold; cursor: pointer; color: white; transition: 0.2s; }
-button:active { transform: scale(0.98); }
-.add-route-btn { background: #2c3e50; }
-.add-route-btn:hover { background: #1a252f; }
-.refresh-btn { background: #7f8c8d; }
-.refresh-btn:hover { background: #636e72; }
+self.addEventListener('activate', event => {
+  const cacheWhitelist = [CACHE_NAME];
+  event.waitUntil(
+    caches.keys().then(cacheNames => {
+      return Promise.all(
+        cacheNames.map(cacheName => {
+          if (cacheWhitelist.indexOf(cacheName) === -1) {
+            return caches.delete(cacheName); 
+          }
+        })
+      );
+    })
+  );
+});
