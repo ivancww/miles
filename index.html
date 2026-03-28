@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>飛行哩數攻略計算機 (v1.5.0)</title>
-    <link rel="stylesheet" href="style.css?v=1.5.0">
+    <title>飛行哩數攻略計算機 (v1.6.0)</title>
+    <link rel="stylesheet" href="style.css?v=1.6.0">
     <link rel="manifest" href="manifest.json">
 </head>
 <body>
@@ -159,7 +159,6 @@
                     <input type="text" class="airport-code route-input" data-block="1" id="dest-1" list="airport-list" placeholder="目的地 (例如: NRT)">
                     <input type="text" class="airport-code route-input" data-block="1" id="return-1" list="airport-list" placeholder="回程地 (例如: HKG)">
                     <div id="realtime-result-1" class="realtime-box">請輸入完整出發及目的地...</div>
-                    <button id="save-btn-1" class="save-btn" onclick="saveToGoogleSheet(1)">💾 儲存此路線到 Google Sheet</button>
                 </div>
             </div>
 
@@ -209,7 +208,7 @@
         </div>
     </div>
 
-    <script src="app.js?v=1.5.0"></script>
+    <script src="app.js?v=1.6.0"></script>
     <script>
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('sw.js');
