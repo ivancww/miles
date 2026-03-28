@@ -1,69 +1,111 @@
-// Version: 4.0 - app.js (航線配對及互動邏輯)
+/* ==========================================
+   哩數攻略 (Mileage Exchanger) PWA
+   檔案：app.js
+   版本：v1.3.0
+========================================== */
 
-// 地點資料庫
-const locationsData = {
-  "日韓台": ["東京成田 (NRT)", "東京羽田 (HND)", "大阪關西 (KIX)", "名古屋 (NGO)", "福岡 (FUK)", "札幌新千歲 (CTS)", "沖繩那霸 (OKA)", "首爾仁川 (ICN)", "首爾金浦 (GMP)", "釜山 (PUS)", "濟州 (CJU)", "台北桃園 (TPE)", "台北松山 (TSA)", "高雄 (KHH)", "台中 (RMQ)"],
-  "東南亞": ["曼谷蘇凡納布 (BKK)", "曼谷廊曼 (DMK)", "布吉 (HKT)", "清邁 (CNX)", "新加坡 (SIN)", "吉隆坡 (KUL)", "檳城 (PEN)", "亞庇/沙巴 (BKI)", "胡志明市 (SGN)", "河內 (HAN)", "峴港 (DAD)", "馬尼拉 (MNL)", "宿霧 (CEB)", "峇里島 (DPS)", "雅加達 (CGK)"],
-  "歐洲": ["倫敦希思路 (LHR)", "倫敦蓋特威克 (LGW)", "曼徹斯特 (MAN)", "巴黎戴高樂 (CDG)", "法蘭克福 (FRA)", "慕尼黑 (MUC)", "阿姆斯特丹 (AMS)", "馬德里 (MAD)", "巴塞隆拿 (BCN)", "羅馬 (FCO)", "米蘭 (MXP)", "蘇黎世 (ZRH)", "維也納 (VIE)", "伊斯坦堡 (IST)"],
-  "美洲": ["紐約甘迺迪 (JFK)", "紐約紐華克 (EWR)", "洛杉磯 (LAX)", "三藩市 (SFO)", "芝加哥 (ORD)", "波士頓 (BOS)", "西雅圖 (SEA)", "溫哥華 (YVR)", "多倫多 (YYZ)"],
-  "澳紐": ["悉尼 (SYD)", "墨爾本 (MEL)", "布里斯本 (BNE)", "珀斯 (PER)", "阿德萊德 (ADL)", "奧克蘭 (AKL)", "基督城 (CHC)"]
-};
+function openTab(tabName, btn) {
+    document.querySelectorAll('.tab-content').forEach(tab => tab.style.display = 'none');
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(tabName).style.display = 'block';
+    btn.classList.add('active');
+}
 
-// 確保 DOM 載入完成後才執行
-document.addEventListener('DOMContentLoaded', () => {
-  const inputField = document.getElementById('locationInput');
-  const dropdownList = document.getElementById('dropdownList');
-  const routeDisplay = document.getElementById('routeDisplay');
+function addInput() {
+    const div = document.createElement('input');
+    div.type = 'text';
+    div.className = 'airport-code';
+    div.setAttribute('list', 'airport-list');
+    div.placeholder = '新增目的地 (點擊拉下選單)';
+    document.getElementById('route-inputs').appendChild(div);
+}
 
-  function renderDropdown(filterText = '') {
-    dropdownList.innerHTML = ''; 
-    let hasResults = false;
+function addInputBA() {
+    const div = document.createElement('input');
+    div.type = 'text';
+    div.className = 'airport-code ba-code';
+    div.setAttribute('list', 'airport-list');
+    div.placeholder = '新增目的地 (點擊拉下選單)';
+    document.getElementById('ba-route-inputs').appendChild(div);
+}
 
-    for (const [category, places] of Object.entries(locationsData)) {
-      const filteredPlaces = places.filter(place => 
-        place.toLowerCase().includes(filterText.toLowerCase())
-      );
+function calculateRoute() {
+    const resultBox = document.getElementById('result-box');
+    resultBox.style.display = 'block';
+    const selectedDistance = document.getElementById('oneworld-distance').value;
+    let distText = selectedDistance ? `你選擇咗總距離上限為 ${selectedDistance} 哩` : '請記得選擇總飛行距離';
+    resultBox.innerHTML = `<strong>🟢 國泰計算結果：</strong><br>${distText}<br><em>(此處可對接你的具體計算公式)</em>`;
+}
 
-      if (filteredPlaces.length > 0) {
-        hasResults = true;
-        const categoryDiv = document.createElement('div');
-        categoryDiv.className = 'category-title';
-        categoryDiv.textContent = category;
-        dropdownList.appendChild(categoryDiv);
+function calculateBA() {
+    const resultBox = document.getElementById('ba-result-box');
+    resultBox.style.display = 'block';
+    resultBox.innerHTML = `<strong>🔵 英航計算結果：</strong><br><em>(此處可對接你的具體計算公式)</em>`;
+}
 
-        filteredPlaces.forEach(place => {
-          const itemDiv = document.createElement('div');
-          itemDiv.className = 'location-item';
-          itemDiv.textContent = place;
-          
-          itemDiv.addEventListener('click', () => {
-            inputField.value = place;
-            dropdownList.style.display = 'none';
-            routeDisplay.innerHTML = `
-              🛫 去程: 香港 (HKG) ➔ ${place} <br>
-              🛬 回程: ${place} ➔ 香港 (HKG)
-            `;
-            routeDisplay.style.display = 'block';
-          });
-          dropdownList.appendChild(itemDiv);
+function forceUpdate() {
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then(function(registrations) {
+            for(let registration of registrations) {
+                registration.unregister();
+            }
         });
-      }
     }
-    dropdownList.style.display = hasResults ? 'block' : 'none';
-  }
+    if ('caches' in window) {
+        caches.keys().then((keyList) => {
+            return Promise.all(keyList.map((key) => caches.delete(key)));
+        }).then(() => {
+            window.location.reload(true);
+        });
+    } else {
+        window.location.reload(true);
+    }
+}
 
-  inputField.addEventListener('input', (e) => { 
-    renderDropdown(e.target.value); 
-    routeDisplay.style.display = 'none'; 
-  });
-  
-  inputField.addEventListener('focus', () => { 
-    renderDropdown(inputField.value); 
-  });
-  
-  document.addEventListener('click', (e) => { 
-    if (!e.target.closest('.autocomplete-container')) { 
-      dropdownList.style.display = 'none'; 
-    } 
-  });
-});
+function checkDates() {
+    const departStr = document.getElementById('depart-date').value;
+    const returnStr = document.getElementById('return-date').value;
+    const statusBox = document.getElementById('date-status');
+    
+    if (!departStr || !returnStr) {
+        statusBox.style.display = 'none';
+        return;
+    }
+
+    const dDate = new Date(departStr);
+    const rDate = new Date(returnStr);
+    
+    const diffTime = Math.abs(rDate - dDate);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    let cxStatus = (diffDays <= 365) ? "<span style='color: green;'>✅ 行程在一年內 (符合國泰規定)</span>" : "<span style='color: red;'>❌ 行程超過一年 (超出國泰環球票期限)</span>";
+
+    const departPeak = isBAPeak2026(dDate);
+    const returnPeak = isBAPeak2026(rDate);
+    let baStatus = `出發日：<strong>${departPeak}</strong> | 回程日：<strong>${returnPeak}</strong>`;
+
+    statusBox.style.display = 'block';
+    statusBox.innerHTML = `
+        <div style="margin-bottom: 8px;"><strong>🟢 國泰檢查：</strong> ${cxStatus} (共 ${diffDays} 日)</div>
+        <div><strong>🔵 英航檢查：</strong> ${baStatus}</div>
+    `;
+}
+
+function isBAPeak2026(dateObj) {
+    if (dateObj.getFullYear() !== 2026) return "只限2026年數據";
+    const m = dateObj.getMonth() + 1;
+    const d = dateObj.getDate();
+    const day = dateObj.getDay(); 
+
+    if (m === 1 && d >= 1 && d <= 5) return "旺季";
+    if (m === 2 && ((d >= 13 && d <= 15) || (d >= 20 && d <= 22))) return "旺季";
+    if (m === 3 && d >= 27 && d <= 30) return "旺季";
+    if (m === 4 && ((d >= 2 && d <= 6) || (d >= 9 && d <= 12))) return "旺季";
+    if (m === 5 && ((d >= 1 && d <= 4) || (d >= 22 && d <= 31))) return "旺季";
+    if (m === 6 && (day === 0 || day === 5 || day === 6)) return "旺季";
+    if (m === 7 && d >= 3) return "旺季";
+    if (m === 8) return "旺季";
+    if (m >= 9 && m <= 11 && (day === 0 || day === 6)) return "旺季 (週末)";
+    if (m === 12 && ((d >= 12 && d <= 13) || (d >= 18 && d <= 24) || (d >= 26 && d <= 31))) return "旺季";
+
+    return "淡季";
+}
