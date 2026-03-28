@@ -1,10 +1,11 @@
 {
-  "name": "飛行哩數攻略計算機1.1",
-  "short_name": "哩數攻略",
+  "name": "香港旅遊及保險指南 (v4.0)",
+  "short_name": "旅遊指南",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#006564",
+  "background_color": "#f4f7f6",
+  "theme_color": "#3b82f6",
+  "description": "提供香港往返目的地配對及旅遊信用卡保險攻略，從客人角度出發，輕鬆規劃行程及保障。",
   "icons": [
     {
       "src": "icon-192.png",
