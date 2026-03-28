@@ -3,140 +3,202 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>香港往返目的地選擇器</title>
+<title>香港往返目的地及旅遊信用卡指南 (v4.0)</title>
 <style>
   body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     padding: 20px;
-    background-color: #f9f9f9;
+    background-color: #f4f7f6;
+  }
+  .container {
+    max-width: 600px; 
+    margin: 0 auto;
   }
   .form-group {
-    max-width: 400px;
-    margin: 0 auto;
     background: white;
     padding: 20px;
     border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    margin-bottom: 25px;
   }
-  .autocomplete-container {
-    position: relative;
-    width: 100%;
-  }
-  label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: bold;
-    color: #333;
-  }
-  #locationInput {
-    width: 100%;
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-  }
-  #locationInput:focus {
-    outline: none;
-    border-color: #007BFF;
-    box-shadow: 0 0 5px rgba(0,123,255,0.3);
-  }
-  .dropdown-content {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    border: 1px solid #ccc;
-    border-top: none;
-    background-color: white;
-    width: 100%;
-    max-height: 350px;
-    overflow-y: auto;
-    z-index: 1000;
-    border-radius: 0 0 4px 4px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-  }
-  .category-title {
-    font-weight: bold;
-    background-color: #e3f2fd;
-    padding: 8px 12px;
-    color: #0056b3;
-    font-size: 14px;
-    pointer-events: none;
-  }
-  .location-item {
-    padding: 10px 15px;
-    cursor: pointer;
-    border-bottom: 1px solid #f1f1f1;
-    color: #444;
-  }
-  .location-item:last-child {
-    border-bottom: none;
-  }
-  .location-item:hover {
-    background-color: #f1f1f1;
-    color: #000;
-  }
-  .route-display {
-    margin-top: 15px;
-    padding: 10px;
-    background-color: #e8f5e9;
-    color: #2e7d32;
-    border-radius: 4px;
-    font-weight: bold;
-    display: none; /* 預設隱藏，選好才顯示 */
-  }
+  /* 目的地選擇器樣式 */
+  .step-heading { font-size: 18px; color: #1e293b; margin-bottom: 15px; padding-bottom: 8px; border-bottom: 3px solid #3b82f6; display: inline-block; font-weight: bold; }
+  .autocomplete-container { position: relative; width: 100%; margin-top: 10px; }
+  label { display: block; margin-bottom: 8px; font-weight: bold; color: #2c3e50; font-size: 15px; }
+  #locationInput { width: 100%; padding: 12px; font-size: 16px; border: 1px solid #cbd5e1; border-radius: 6px; box-sizing: border-box; }
+  #locationInput:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,0.2); }
+  .dropdown-content { display: none; position: absolute; top: 100%; left: 0; border: 1px solid #cbd5e1; border-top: none; background-color: white; width: 100%; max-height: 350px; overflow-y: auto; z-index: 1000; border-radius: 0 0 6px 6px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
+  .category-title { font-weight: bold; background-color: #f1f5f9; padding: 10px 15px; color: #0f172a; font-size: 14px; pointer-events: none; border-bottom: 1px solid #e2e8f0; }
+  .location-item { padding: 12px 15px; cursor: pointer; border-bottom: 1px solid #f8fafc; color: #334155; transition: background-color 0.2s; }
+  .location-item:last-child { border-bottom: none; }
+  .location-item:hover { background-color: #e2e8f0; color: #0f172a; }
+  .route-display { margin-top: 15px; padding: 12px; background-color: #dcfce7; color: #166534; border-radius: 6px; font-weight: 600; display: none; border: 1px solid #bbf7d0; }
+
+  /* 信用卡資訊樣式 */
+  .cc-grid { display: grid; gap: 20px; grid-template-columns: 1fr; }
+  .cc-card { background: #ffffff; padding: 18px; border-radius: 8px; border: 1px solid #e2e8f0; box-shadow: 0 2px 4px rgba(0,0,0,0.04); position: relative; }
+  .cc-card h4 { margin: 0 0 12px 0; color: #0f172a; font-size: 17px; display: flex; align-items: center; justify-content: space-between; }
+  .cc-card ul { margin: 0; padding-left: 20px; color: #475569; font-size: 14px; line-height: 1.6; }
+  .cc-card li { margin-bottom: 8px; }
+  .cc-card li strong { color: #1e293b; }
+  
+  /* 客人角度亮點標籤 */
+  .tags { margin-bottom: 12px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag { font-size: 12px; padding: 3px 8px; border-radius: 4px; font-weight: 600; }
+  .tag-insurance { background-color: #dbeafe; color: #1e40af; }
+  .tag-lounge { background-color: #fef08a; color: #854d0e; }
+  .tag-miles { background-color: #f3e8ff; color: #6b21a8; }
+  
+  .customer-tip { background: #fffbeb; padding: 15px; border-radius: 8px; font-size: 14px; color: #92400e; margin-bottom: 20px; border-left: 4px solid #f59e0b; line-height: 1.5; }
 </style>
 </head>
 <body>
 
-<div class="form-group">
-  <div class="autocomplete-container">
-    <label for="locationInput">選擇目的地 (系統將自動配對香港往返):</label>
-    <input type="text" id="locationInput" placeholder="輸入城市或機場 (如: 東京, TPE)..." autocomplete="off">
-    <div id="dropdownList" class="dropdown-content"></div>
-  </div>
-  
-  <div id="routeDisplay" class="route-display">
+<div class="container">
+  <div class="form-group">
+    <div class="step-heading">第一步：選擇目的地 (v4.0)</div>
+    <div class="autocomplete-container">
+      <label for="locationInput">系統自動配對香港往返航線：</label>
+      <input type="text" id="locationInput" placeholder="輸入城市或機場 (如: 東京, TPE)..." autocomplete="off">
+      <div id="dropdownList" class="dropdown-content"></div>
     </div>
+    <div id="routeDisplay" class="route-display"></div>
+  </div>
+
+  <div class="form-group">
+    <div class="step-heading">第二步：旅遊支付及里數攻略 (v4.0)</div>
+    
+    <div class="customer-tip">
+      <strong>💡 客人小貼士：</strong><br>
+      預訂機票或酒店時，建議使用附帶<strong>「免費旅遊保險」</strong>的信用卡全數支付。留意部分信用卡兌換里數需收取手續費，或積分設有期限。
+    </div>
+
+    <div class="cc-grid">
+      <div class="cc-card">
+        <h4>東亞 BEA World Mastercard</h4>
+        <div class="tags">
+          <span class="tag tag-miles">只限 Asia Miles</span>
+        </div>
+        <ul>
+          <li><strong>里數兌換：</strong> HK$10 = 1里</li>
+          <li><strong>兌換注意：</strong> 需收取手續費</li>
+        </ul>
+      </div>
+
+      <div class="cc-card">
+        <h4>滙豐 HSBC EveryMile 信用卡</h4>
+        <div class="tags">
+          <span class="tag tag-miles">多種里數/酒店</span>
+          <span class="tag tag-lounge">每年6次入Lounge</span>
+          <span class="tag tag-insurance">免費旅遊保險</span>
+        </div>
+        <ul>
+          <li><strong>里數兌換：</strong> 指定日常/旅遊簽賬低至 HK$2 = 1里；本地消費 HK$5 = 1里</li>
+          <li><strong>海外簽賬：</strong> HK$2 = 1里 (需留意 1.95% 手續費)</li>
+          <li><strong>積分用途：</strong> 積分有限期；可換 Asia Miles、Avios、Krisflyer 及酒店積分</li>
+          <li><strong>機場貴賓室：</strong> 每年可免費使用 Plaza Premium Lounge 6次 (須於60天內簽賬 HK$4,000)</li>
+        </ul>
+      </div>
+
+      <div class="cc-card">
+        <h4>大新英國航空白金卡</h4>
+        <div class="tags">
+          <span class="tag tag-miles">只限 Avios</span>
+        </div>
+        <ul>
+          <li><strong>里數兌換：</strong> HK$6 = 1里</li>
+        </ul>
+      </div>
+
+      <div class="cc-card">
+        <h4>渣打國泰 Mastercard</h4>
+        <div class="tags">
+          <span class="tag tag-miles">自動兌換免手續費</span>
+        </div>
+        <ul>
+          <li><strong>國泰/HK Express簽賬：</strong> 低至 HK$2 = 1里</li>
+          <li><strong>食肆/酒店/海外：</strong> HK$4 = 1里</li>
+          <li><strong>國泰夥伴餐廳：</strong> 低至 HK$4 = 2里</li>
+          <li><strong>其他港幣簽賬：</strong> HK$6 = 1里</li>
+          <li><strong>兌換注意：</strong> 每月即時自動兌換 Asia Miles，免收手續費</li>
+        </ul>
+      </div>
+
+      <div class="cc-card">
+        <h4>美國運通 AE Explorer 信用卡</h4>
+        <div class="tags">
+          <span class="tag tag-miles">積分無限期</span>
+          <span class="tag tag-lounge">每年8次入Lounge</span>
+          <span class="tag tag-insurance">買機票包保險</span>
+        </div>
+        <ul>
+          <li><strong>里數兌換：</strong> 本地簽賬 HK$6 = 1里 (可換 Asia Miles、Avios、Krisflyer)</li>
+          <li><strong>酒店積分兌換：</strong> 
+            <br>- 萬豪旅享家 (Marriott)：9 AE = 1積分 (每次最少換9,000分)
+            <br>- 希爾頓榮譽客會 (Hilton)：6.4 AE = 1積分 (每次最少換8,000分)</li>
+          <li><strong>機場貴賓室：</strong> 免費使用 8 次指定環亞機場貴賓室</li>
+          <li><strong>免費旅遊保險：</strong> 使用此卡支付全數旅遊票務開支即可自動享有保障</li>
+        </ul>
+      </div>
+
+      <div class="cc-card">
+        <h4>星展 DBS Black World Mastercard</h4>
+        <div class="tags">
+          <span class="tag tag-miles">積分無限期</span>
+          <span class="tag tag-insurance">買機票包保險</span>
+        </div>
+        <ul>
+          <li><strong>里數兌換：</strong> 本地簽賬 HK$6 = 1里 (可換 Asia Miles、Avios、Krisflyer)</li>
+          <li><strong>免費旅遊保險：</strong> 憑卡預訂機票或旅程，可享免費旅遊保障</li>
+        </ul>
+      </div>
+
+      <div class="cc-card">
+        <h4>花旗 Citi Rewards 信用卡</h4>
+        <div class="tags">
+          <span class="tag tag-miles">積分無限期</span>
+          <span class="tag tag-insurance">主卡及家人保險</span>
+        </div>
+        <ul>
+          <li><strong>里數兌換：</strong> 基本本地簽賬 HK$8 = 1里 (可換 Asia Miles、Avios、Krisflyer)</li>
+          <li><strong>兌換注意：</strong> 兌換需收手續費</li>
+          <li><strong>免費旅遊保險：</strong> 需以信用卡支付機票、住宿或團費，保障主卡持卡人及其家人 (承保人: 蘇黎世)</li>
+        </ul>
+      </div>
+
+      <div class="cc-card">
+        <h4>花旗 Citi PremierMiles 信用卡</h4>
+        <div class="tags">
+          <span class="tag tag-miles">免手續費兌換</span>
+          <span class="tag tag-lounge">入Lounge條件</span>
+          <span class="tag tag-insurance">主卡及家人保險</span>
+        </div>
+        <ul>
+          <li><strong>本地簽賬：</strong> 基本 HK$8 = 1里</li>
+          <li><strong>海外簽賬：</strong> 首 HK$20,000 為 $3/里；其後 $4/里 (需留意 1.95% 手續費)</li>
+          <li><strong>積分用途：</strong> 積分無限期；免手續費換取 Asia Miles、Avios、Krisflyer</li>
+          <li><strong>機場貴賓室：</strong> 可使用，但需於之後 30 天內累積簽賬滿 HK$5,000</li>
+          <li><strong>免費旅遊保險：</strong> 需以信用卡支付機票、住宿或團費，保障主卡持卡人及其家人 (承保人: 蘇黎世)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
-// 1. 擴充後的香港往返地點分類資料庫
+// JavaScript 邏輯 (v4.0 保持不變)
 const locationsData = {
-  "日韓台": [
-    "東京成田 (NRT)", "東京羽田 (HND)", "大阪關西 (KIX)", "名古屋 (NGO)", "福岡 (FUK)", "札幌新千歲 (CTS)", "沖繩那霸 (OKA)",
-    "首爾仁川 (ICN)", "首爾金浦 (GMP)", "釜山 (PUS)", "濟州 (CJU)",
-    "台北桃園 (TPE)", "台北松山 (TSA)", "高雄 (KHH)", "台中 (RMQ)"
-  ],
-  "東南亞": [
-    "曼谷蘇凡納布 (BKK)", "曼谷廊曼 (DMK)", "布吉 (HKT)", "清邁 (CNX)",
-    "新加坡 (SIN)", "吉隆坡 (KUL)", "檳城 (PEN)", "亞庇/沙巴 (BKI)",
-    "胡志明市 (SGN)", "河內 (HAN)", "峴港 (DAD)",
-    "馬尼拉 (MNL)", "宿霧 (CEB)", "峇里島 (DPS)", "雅加達 (CGK)"
-  ],
-  "歐洲": [
-    "倫敦希思路 (LHR)", "倫敦蓋特威克 (LGW)", "曼徹斯特 (MAN)",
-    "巴黎戴高樂 (CDG)", "法蘭克福 (FRA)", "慕尼黑 (MUC)",
-    "阿姆斯特丹 (AMS)", "馬德里 (MAD)", "巴塞隆拿 (BCN)",
-    "羅馬 (FCO)", "米蘭 (MXP)", "蘇黎世 (ZRH)", "維也納 (VIE)", "伊斯坦堡 (IST)"
-  ],
-  "美洲": [
-    "紐約甘迺迪 (JFK)", "紐約紐華克 (EWR)", "洛杉磯 (LAX)", "三藩市 (SFO)", 
-    "芝加哥 (ORD)", "波士頓 (BOS)", "西雅圖 (SEA)",
-    "溫哥華 (YVR)", "多倫多 (YYZ)"
-  ],
-  "澳紐": [
-    "悉尼 (SYD)", "墨爾本 (MEL)", "布里斯本 (BNE)", "珀斯 (PER)", "阿德萊德 (ADL)",
-    "奧克蘭 (AKL)", "基督城 (CHC)"
-  ]
+  "日韓台": ["東京成田 (NRT)", "東京羽田 (HND)", "大阪關西 (KIX)", "名古屋 (NGO)", "福岡 (FUK)", "札幌新千歲 (CTS)", "沖繩那霸 (OKA)", "首爾仁川 (ICN)", "首爾金浦 (GMP)", "釜山 (PUS)", "濟州 (CJU)", "台北桃園 (TPE)", "台北松山 (TSA)", "高雄 (KHH)", "台中 (RMQ)"],
+  "東南亞": ["曼谷蘇凡納布 (BKK)", "曼谷廊曼 (DMK)", "布吉 (HKT)", "清邁 (CNX)", "新加坡 (SIN)", "吉隆坡 (KUL)", "檳城 (PEN)", "亞庇/沙巴 (BKI)", "胡志明市 (SGN)", "河內 (HAN)", "峴港 (DAD)", "馬尼拉 (MNL)", "宿霧 (CEB)", "峇里島 (DPS)", "雅加達 (CGK)"],
+  "歐洲": ["倫敦希思路 (LHR)", "倫敦蓋特威克 (LGW)", "曼徹斯特 (MAN)", "巴黎戴高樂 (CDG)", "法蘭克福 (FRA)", "慕尼黑 (MUC)", "阿姆斯特丹 (AMS)", "馬德里 (MAD)", "巴塞隆拿 (BCN)", "羅馬 (FCO)", "米蘭 (MXP)", "蘇黎世 (ZRH)", "維也納 (VIE)", "伊斯坦堡 (IST)"],
+  "美洲": ["紐約甘迺迪 (JFK)", "紐約紐華克 (EWR)", "洛杉磯 (LAX)", "三藩市 (SFO)", "芝加哥 (ORD)", "波士頓 (BOS)", "西雅圖 (SEA)", "溫哥華 (YVR)", "多倫多 (YYZ)"],
+  "澳紐": ["悉尼 (SYD)", "墨爾本 (MEL)", "布里斯本 (BNE)", "珀斯 (PER)", "阿德萊德 (ADL)", "奧克蘭 (AKL)", "基督城 (CHC)"]
 };
 
 const inputField = document.getElementById('locationInput');
 const dropdownList = document.getElementById('dropdownList');
 const routeDisplay = document.getElementById('routeDisplay');
 
-// 2. 渲染下拉選單的函數
 function renderDropdown(filterText = '') {
   dropdownList.innerHTML = ''; 
   let hasResults = false;
@@ -148,7 +210,6 @@ function renderDropdown(filterText = '') {
 
     if (filteredPlaces.length > 0) {
       hasResults = true;
-      
       const categoryDiv = document.createElement('div');
       categoryDiv.className = 'category-title';
       categoryDiv.textContent = category;
@@ -159,43 +220,25 @@ function renderDropdown(filterText = '') {
         itemDiv.className = 'location-item';
         itemDiv.textContent = place;
         
-        // 當客人點擊選項時的動作
         itemDiv.addEventListener('click', () => {
           inputField.value = place;
           dropdownList.style.display = 'none';
-          
-          // 更新並顯示完整航線給客人確認
           routeDisplay.innerHTML = `
-            去程: 香港 (HKG) ✈️ ${place} <br>
-            回程: ${place} ✈️ 香港 (HKG)
+            🛫 去程: 香港 (HKG) ➔ ${place} <br>
+            🛬 回程: ${place} ➔ 香港 (HKG)
           `;
           routeDisplay.style.display = 'block';
         });
-        
         dropdownList.appendChild(itemDiv);
       });
     }
   }
-
   dropdownList.style.display = hasResults ? 'block' : 'none';
 }
 
-// 3. 監聽輸入框事件
-inputField.addEventListener('input', (e) => {
-  renderDropdown(e.target.value);
-  routeDisplay.style.display = 'none'; // 重新輸入時隱藏航線確認
-});
-
-inputField.addEventListener('focus', () => {
-  renderDropdown(inputField.value);
-});
-
-// 4. 點擊畫面其他地方時隱藏選單
-document.addEventListener('click', (e) => {
-  if (!e.target.closest('.autocomplete-container')) {
-    dropdownList.style.display = 'none';
-  }
-});
+inputField.addEventListener('input', (e) => { renderDropdown(e.target.value); routeDisplay.style.display = 'none'; });
+inputField.addEventListener('focus', () => { renderDropdown(inputField.value); });
+document.addEventListener('click', (e) => { if (!e.target.closest('.autocomplete-container')) { dropdownList.style.display = 'none'; } });
 </script>
 
 </body>
