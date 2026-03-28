@@ -1,118 +1,47 @@
-/* ==========================================
-   哩數攻略 (Mileage Exchanger)
-   檔案：style.css
-   版本：v1.0.1
-   最後更新：2026-03-28
-========================================== */
-
-* {
-    box-sizing: border-box;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-}
-
+/* Version: 4.0 - style.css (旅遊及保險信用卡指南) */
 body {
-    background-color: #f4f7f6;
-    margin: 0;
-    padding: 20px;
-    color: #333;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 20px;
+  background-color: #f4f7f6;
+}
+.container {
+  max-width: 600px; 
+  margin: 0 auto;
+}
+.form-group {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  margin-bottom: 25px;
 }
 
-h2 {
-    text-align: center;
-    color: #2c3e50;
-    margin-bottom: 25px;
-}
+/* 目的地選擇器樣式 */
+.step-heading { font-size: 18px; color: #1e293b; margin-bottom: 15px; padding-bottom: 8px; border-bottom: 3px solid #3b82f6; display: inline-block; font-weight: bold; }
+.autocomplete-container { position: relative; width: 100%; margin-top: 10px; }
+label { display: block; margin-bottom: 8px; font-weight: bold; color: #2c3e50; font-size: 15px; }
+#locationInput { width: 100%; padding: 12px; font-size: 16px; border: 1px solid #cbd5e1; border-radius: 6px; box-sizing: border-box; }
+#locationInput:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,0.2); }
+.dropdown-content { display: none; position: absolute; top: 100%; left: 0; border: 1px solid #cbd5e1; border-top: none; background-color: white; width: 100%; max-height: 350px; overflow-y: auto; z-index: 1000; border-radius: 0 0 6px 6px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
+.category-title { font-weight: bold; background-color: #f1f5f9; padding: 10px 15px; color: #0f172a; font-size: 14px; pointer-events: none; border-bottom: 1px solid #e2e8f0; }
+.location-item { padding: 12px 15px; cursor: pointer; border-bottom: 1px solid #f8fafc; color: #334155; transition: background-color 0.2s; }
+.location-item:last-child { border-bottom: none; }
+.location-item:hover { background-color: #e2e8f0; color: #0f172a; }
+.route-display { margin-top: 15px; padding: 12px; background-color: #dcfce7; color: #166534; border-radius: 6px; font-weight: 600; display: none; border: 1px solid #bbf7d0; }
 
-.tab-container {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-    background: #fff;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-}
+/* 信用卡資訊樣式 */
+.cc-grid { display: grid; gap: 20px; grid-template-columns: 1fr; }
+.cc-card { background: #ffffff; padding: 18px; border-radius: 8px; border: 1px solid #e2e8f0; box-shadow: 0 2px 4px rgba(0,0,0,0.04); position: relative; }
+.cc-card h4 { margin: 0 0 12px 0; color: #0f172a; font-size: 17px; display: flex; align-items: center; justify-content: space-between; }
+.cc-card ul { margin: 0; padding-left: 20px; color: #475569; font-size: 14px; line-height: 1.6; }
+.cc-card li { margin-bottom: 8px; }
+.cc-card li strong { color: #1e293b; }
 
-.tab-btn {
-    flex: 1;
-    padding: 15px 5px;
-    border: none;
-    background: #e9ecef;
-    color: #6c757d;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 14px;
-    transition: all 0.3s ease;
-}
+/* 客人角度亮點標籤 */
+.tags { margin-bottom: 12px; display: flex; flex-wrap: wrap; gap: 8px; }
+.tag { font-size: 12px; padding: 3px 8px; border-radius: 4px; font-weight: 600; }
+.tag-insurance { background-color: #dbeafe; color: #1e40af; }
+.tag-lounge { background-color: #fef08a; color: #854d0e; }
+.tag-miles { background-color: #f3e8ff; color: #6b21a8; }
 
-.tab-btn:nth-child(1).active { background: #006564; color: white; }
-.tab-btn:nth-child(2).active { background: #012A5E; color: white; }
-.tab-btn:nth-child(3).active { background: #FDB813; color: #002561; }
-
-.tab-content {
-    background: white;
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-    animation: fadeIn 0.4s ease-in-out;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-.card-section, .calculator-section {
-    margin-top: 15px;
-    padding-top: 15px;
-    border-top: 1px solid #eee;
-}
-
-h3 { margin-top: 0; font-size: 18px; color: #333; }
-h4 { margin-bottom: 10px; color: #555; }
-ul { padding-left: 20px; font-size: 14px; line-height: 1.6; color: #444; }
-
-.airport-code {
-    width: 100%;
-    padding: 14px;
-    margin-bottom: 12px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    font-size: 16px;
-    text-transform: uppercase;
-    background-color: #fdfdfd;
-}
-
-.airport-code:focus {
-    outline: none;
-    border-color: #006564;
-    box-shadow: 0 0 5px rgba(0, 101, 100, 0.2);
-}
-
-button {
-    width: 100%;
-    padding: 14px;
-    margin-top: 10px;
-    border: none;
-    border-radius: 8px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    background: #2c3e50;
-    color: white;
-    transition: 0.2s;
-}
-
-button:active { transform: scale(0.98); }
-
-.result-box {
-    margin-top: 25px;
-    padding: 18px;
-    background: #f0f7f6;
-    border-left: 5px solid #006564;
-    border-radius: 8px;
-    font-size: 15px;
-    line-height: 1.8;
-    color: #222;
-    display: none;
-}
+.customer-tip { background: #fffbeb; padding: 15px; border-radius: 8px; font-size: 14px; color: #92400e; margin-bottom: 20px; border-left: 4px solid #f59e0b; line-height: 1.5; }
