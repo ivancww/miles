@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>飛行哩數攻略計算機</title>
-    <link rel="stylesheet" href="style.css?v=1.4.0">
+    <title>飛行哩數攻略計算機 (v1.5.0)</title>
+    <link rel="stylesheet" href="style.css?v=1.5.0">
     <link rel="manifest" href="manifest.json">
 </head>
 <body>
@@ -30,12 +30,10 @@
 
     <datalist id="airport-list">
         <option value="HKG">🇭🇰 香港 (Hong Kong)</option>
-        
         <option value="TPE">🇹🇼 台北桃園 (Taipei Taoyuan)</option>
         <option value="TSA">🇹🇼 台北松山 (Taipei Songshan)</option>
         <option value="KHH">🇹🇼 高雄 (Kaohsiung)</option>
         <option value="RMQ">🇹🇼 台中 (Taichung)</option>
-
         <option value="NRT">🇯🇵 東京成田 (Tokyo Narita)</option>
         <option value="HND">🇯🇵 東京羽田 (Tokyo Haneda)</option>
         <option value="KIX">🇯🇵 大阪關西 (Osaka Kansai)</option>
@@ -46,12 +44,10 @@
         <option value="KOJ">🇯🇵 鹿兒島 (Kagoshima)</option>
         <option value="TAK">🇯🇵 高松 (Takamatsu)</option>
         <option value="KMJ">🇯🇵 熊本 (Kumamoto)</option>
-
         <option value="ICN">🇰🇷 首爾仁川 (Seoul Incheon)</option>
         <option value="GMP">🇰🇷 首爾金浦 (Seoul Gimpo)</option>
         <option value="PUS">🇰🇷 釜山 (Busan)</option>
         <option value="CJU">🇰🇷 濟州 (Jeju)</option>
-
         <option value="BKK">🇹🇭 曼谷蘇凡納布 (Bangkok BKK)</option>
         <option value="DMK">🇹🇭 曼谷廊曼 (Bangkok DMK)</option>
         <option value="HKT">🇹🇭 布吉 (Phuket)</option>
@@ -72,7 +68,6 @@
         <option value="PNH">🇰🇭 金邊 (Phnom Penh)</option>
         <option value="RGN">🇲🇲 仰光 (Yangon)</option>
         <option value="BWN">🇧🇳 汶萊 (Brunei)</option>
-
         <option value="PEK">🇨🇳 北京首都 (Beijing Capital)</option>
         <option value="PKX">🇨🇳 北京大興 (Beijing Daxing)</option>
         <option value="PVG">🇨🇳 上海浦東 (Shanghai Pudong)</option>
@@ -91,7 +86,6 @@
         <option value="DLC">🇨🇳 大連 (Dalian)</option>
         <option value="HAK">🇨🇳 海口 (Haikou)</option>
         <option value="SYX">🇨🇳 三亞 (Sanya)</option>
-
         <option value="LHR">🇬🇧 倫敦希斯路 (London LHR)</option>
         <option value="LGW">🇬🇧 倫敦蓋特威克 (London LGW)</option>
         <option value="MAN">🇬🇧 曼徹斯特 (Manchester)</option>
@@ -106,7 +100,6 @@
         <option value="ZRH">🇨🇭 蘇黎世 (Zurich)</option>
         <option value="HEL">🇫🇮 赫爾辛基 (Helsinki)</option>
         <option value="IST">🇹🇷 伊斯坦堡 (Istanbul)</option>
-
         <option value="JFK">🇺🇸 紐約甘迺迪 (New York JFK)</option>
         <option value="EWR">🇺🇸 紐約紐華克 (New York EWR)</option>
         <option value="LAX">🇺🇸 洛杉磯 (Los Angeles)</option>
@@ -115,7 +108,6 @@
         <option value="BOS">🇺🇸 波士頓 (Boston)</option>
         <option value="YVR">🇨🇦 溫哥華 (Vancouver)</option>
         <option value="YYZ">🇨🇦 多倫多 (Toronto)</option>
-
         <option value="SYD">🇦🇺 悉尼/雪梨 (Sydney)</option>
         <option value="MEL">🇦🇺 墨爾本 (Melbourne)</option>
         <option value="BNE">🇦🇺 布里斯本 (Brisbane)</option>
@@ -124,7 +116,6 @@
         <option value="CHC">🇳🇿 基督城 (Christchurch)</option>
         <option value="POM">🇵🇬 莫士比港 (Port Moresby)</option>
         <option value="NAN">🇫🇯 楠迪 (Nadi)</option>
-
         <option value="DXB">🇦🇪 杜拜 (Dubai)</option>
         <option value="DOH">🇶🇦 多哈 (Doha)</option>
         <option value="RUH">🇸🇦 利雅得 (Riyadh)</option>
@@ -145,7 +136,7 @@
     </div>
 
     <div id="cathay" class="tab-content" style="display: block;">
-        <h3>🟢 國泰專屬計算</h3>
+        <h3>🟢 國泰專屬計算 (支援環球票)</h3>
         <div class="card-section">
             <h4>💳 適用信用卡及福利</h4>
             <ul>
@@ -154,6 +145,8 @@
                 <li><strong>AE Explorer 信用卡</strong> - HK$6/里 | 每年8次貴賓室 | 旅遊保障</li>
                 <li><strong>Citi PremierMiles</strong> - HK$8/里 | 蘇黎世旅遊保險</li>
                 <li><strong>DBS Black World Mastercard</strong> - HK$6/里 | 旅遊保障</li>
+                <li><strong>Citi Reward</strong> - HK$8/里 | 需兌換手續費</li>
+                <li><strong>東亞 BEA World Mastercard</strong> - HK$10/里 | 需兌換手續費</li>
             </ul>
         </div>
         <div class="calculator-section">
@@ -166,6 +159,7 @@
                     <input type="text" class="airport-code route-input" data-block="1" id="dest-1" list="airport-list" placeholder="目的地 (例如: NRT)">
                     <input type="text" class="airport-code route-input" data-block="1" id="return-1" list="airport-list" placeholder="回程地 (例如: HKG)">
                     <div id="realtime-result-1" class="realtime-box">請輸入完整出發及目的地...</div>
+                    <button id="save-btn-1" class="save-btn" onclick="saveToGoogleSheet(1)">💾 儲存此路線到 Google Sheet</button>
                 </div>
             </div>
 
@@ -180,17 +174,46 @@
         <h3>🔵 英航 Avios 專屬計算</h3>
         <div style="background: #eef5fb; padding: 12px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid #012A5E;">
             <h4 style="margin-top: 0; color: #012A5E;">📅 2026年英航旺季 (Peak) 日期</h4>
-            <p style="font-size: 13px; margin-bottom: 0;"><strong>8月:</strong> 全月旺季 | 詳細請參考官方日曆。</p>
+            <p style="font-size: 13px; line-height: 1.6; margin-bottom: 0;">
+                <strong>1月:</strong> 1-5日 | <strong>2月:</strong> 13-15, 20-22日<br>
+                <strong>3月:</strong> 27-30日 | <strong>4月:</strong> 2-6, 9-12日<br>
+                <strong>5月:</strong> 1-4, 22-31日 | <strong>6月:</strong> 逢星期五至日<br>
+                <strong>7月:</strong> 3日起大部份日子 | <strong>8月:</strong> <b>全月旺季</b><br>
+                <strong>9-11月:</strong> 週末及假期 | <strong>12月:</strong> 12-13, 18-24, 26-31日
+            </p>
+        </div>
+        <div class="card-section">
+            <h4>💳 適用信用卡及福利</h4>
+            <ul>
+                <li><strong>大新英國航空白金卡</strong> - HK$6/里 (專屬免手續費)</li>
+                <li><strong>滙豐 EveryMile / AE Explorer / Citi PremierMiles</strong></li>
+            </ul>
         </div>
     </div>
 
     <div id="sq" class="tab-content" style="display: none;">
         <h3>🟡 新航 KrisFlyer (區域制)</h3>
-        <div style="background: #fff8e1; padding: 12px; border-radius: 8px; border-left: 4px solid #FDB813;">
-            <p><strong>🇸🇬 飛往 新加坡 (Zone 1)</strong><br>經濟: 16,500 哩 | 商務: 34,000 哩</p>
+        <div class="card-section">
+            <h4>💳 適用信用卡及福利</h4>
+            <ul>
+                <li><strong>滙豐 EveryMile / AE Explorer / Citi PremierMiles</strong></li>
+            </ul>
+        </div>
+        <div class="calculator-section">
+            <h4>🗺️ 兌換概覽 (香港出發單程 Saver)</h4>
+            <div style="background: #fff8e1; padding: 12px; border-radius: 8px; border-left: 4px solid #FDB813;">
+                <p><strong>🇸🇬 飛往 新加坡 (Zone 1)</strong><br>經濟: 16,500 哩 | 商務: 34,000 哩</p>
+                <p><strong>🇦🇺 飛往 澳洲/紐西蘭 (Zone 8/9)</strong><br>經濟: 30,500 哩 | 商務: 68,500 哩</p>
+                <p><strong>🇬🇧 飛往 歐洲 (Zone 11)</strong><br>經濟: 42,000 哩 | 商務: 103,500 哩</p>
+            </div>
         </div>
     </div>
 
-    <script src="app.js?v=1.4.0"></script>
+    <script src="app.js?v=1.5.0"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js');
+        }
+    </script>
 </body>
 </html>
