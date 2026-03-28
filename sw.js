@@ -1,7 +1,7 @@
 /* ==========================================
    哩數攻略 (Mileage Exchanger) PWA
    檔案：sw.js (Service Worker)
-   版本：v1.3.0
+   版本：v1.3.1
 ========================================== */
 
 const CACHE_NAME = 'mileage-calculator-cache-v1.3.0';
