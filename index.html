@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>飛行哩數攻略計算機 (v1.6.0)</title>
-    <link rel="stylesheet" href="style.css?v=1.6.0">
+    <title>飛行哩數攻略計算機</title>
+    <link rel="stylesheet" href="style.css?v=1.6.1">
     <link rel="manifest" href="manifest.json">
 </head>
 <body>
@@ -149,23 +149,39 @@
                 <li><strong>東亞 BEA World Mastercard</strong> - HK$10/里 | 需兌換手續費</li>
             </ul>
         </div>
+        
         <div class="calculator-section">
-            <h4>🗺️ 路線規劃 (即時計算)</h4>
+            <div style="margin-bottom: 15px;">
+                <label style="font-weight: bold; color: #006564; display: block; margin-bottom: 5px;">📍 寰宇一家總飛行距離 (僅供參考)：</label>
+                <select id="oneworld-distance" class="airport-code">
+                    <option value="" disabled selected>請選擇寰宇一家總距離 (哩)</option>
+                    <option value="1500">1 - 1,500 哩</option>
+                    <option value="4000">1,501 - 4,000 哩</option>
+                    <option value="8000">4,001 - 8,000 哩</option>
+                    <option value="10000">8,001 - 10,000 哩</option>
+                    <option value="14000">10,001 - 14,000 哩</option>
+                    <option value="18000">14,001 - 18,000 哩</option>
+                    <option value="20000">18,001 - 20,000 哩</option>
+                    <option value="25000">20,001 - 25,000 哩</option>
+                    <option value="35000">25,001 - 35,000 哩</option>
+                    <option value="50000">35,001 - 50,000 哩</option>
+                </select>
+            </div>
+
+            <h4>🗺️ 路線規劃 (打字自動即時計算)</h4>
             
             <div id="route-container">
                 <div class="route-block" id="route-block-1">
-                    <div class="route-header">📍 路線 1</div>
-                    <input type="text" class="airport-code route-input" data-block="1" id="from-1" list="airport-list" placeholder="出發地 (例如: HKG)">
-                    <input type="text" class="airport-code route-input" data-block="1" id="dest-1" list="airport-list" placeholder="目的地 (例如: NRT)">
-                    <input type="text" class="airport-code route-input" data-block="1" id="return-1" list="airport-list" placeholder="回程地 (例如: HKG)">
-                    <div id="realtime-result-1" class="realtime-box">請輸入完整出發及目的地...</div>
+                    <h4 style="margin-top:0; margin-bottom: 10px; color:#006564;">📍 路線 1</h4>
+                    <input type="text" class="airport-code route-input" data-block="1" id="from-1" list="airport-list" placeholder="出發地 (點擊拉下選單)">
+                    <input type="text" class="airport-code route-input" data-block="1" id="dest-1" list="airport-list" placeholder="目的地 (點擊拉下選單)">
+                    <input type="text" class="airport-code route-input" data-block="1" id="return-1" list="airport-list" placeholder="回程地 (點擊拉下選單)">
+                    <div id="realtime-result-1" class="result-box">請輸入完整出發及目的地...</div>
                 </div>
             </div>
 
-            <div class="btn-group">
-                <button class="add-route-btn" onclick="addRouteBlock()">+ 新增另一路線</button>
-                <button class="refresh-btn" onclick="refreshRoutes()">🔄 Refresh (清除航線)</button>
-            </div>
+            <button onclick="addRouteBlock()">+ 新增另一路線</button>
+            <button onclick="refreshRoutes()" style="background: #7f8c8d;">🔄 重新輸入 (清除航線)</button>
         </div>
     </div>
 
@@ -208,7 +224,7 @@
         </div>
     </div>
 
-    <script src="app.js?v=1.6.0"></script>
+    <script src="app.js?v=1.6.1"></script>
     <script>
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('sw.js');
